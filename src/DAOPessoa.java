@@ -15,8 +15,10 @@ public class DAOPessoa implements DAOInterface<Pessoa>{
     private String sql;
 
     private Connection getConnection(){ // It's seem that this is for more safety in the code.
+       // The order of the condition matter:
+        // if isClosed() comes first -> NullPointerException
         try {
-            if(!this.connection.isClosed() && this.connection != null){
+            if(this.connection != null && !this.connection.isClosed() ){
                 return connection;
             }
         } catch (SQLException e) {
