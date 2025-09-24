@@ -11,12 +11,14 @@ public class FabricConnection {
     public static Connection getConnection() {
         // trocando uma excessão checada por uma não checada
         try {
-            final String url = "jdbc:mysql://localhost/teste_java?verifyServerCertificate=false&useSSL=true";
-            final String user = "root";
-            final String password = "tBw$FDHuQgZF8E";
+            Properties props = getProperties();
+
+            final String url = props.getProperty("banco.url");
+            final String user = props.getProperty("banco.user");
+            final String password = props.getProperty("banco.password");
 
             return DriverManager.getConnection(url, user, password);
-        } catch (SQLException e) {
+        } catch (SQLException | IOException e) {
             throw new RuntimeException(e);
         }
     }
@@ -25,6 +27,6 @@ public class FabricConnection {
         String path = "conxao.properties";
 
         prop.load(FabricConnection.class.getResourceAsStream(path));
-
+        return prop;
     }
 }
