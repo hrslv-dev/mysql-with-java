@@ -20,7 +20,7 @@ public class DAO2 {
     private void setAtr(PreparedStatement ps, Object[] args){
         // index of the parameter in the SQL command
         try {
-            int index = 0;
+            int index = 1;
             // need to pass for all the args
             for(Object arg: args){ //
                 if(arg instanceof String){ // confers if is the arg is a String, a Double or Int
@@ -30,6 +30,7 @@ public class DAO2 {
                 } else if(arg instanceof Double){
                     ps.setDouble(index, (double) arg);
                 }
+                index++;
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
