@@ -1,3 +1,5 @@
+package test;
+
 import java.sql.Connection; // Pacote com uso de banco de dados MySQL é na java.sql
 import java.sql.DriverManager;
 import java.sql.SQLException;

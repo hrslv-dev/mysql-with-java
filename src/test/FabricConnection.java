@@ -1,5 +1,5 @@
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+package test;
+
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -24,7 +24,7 @@ public class FabricConnection {
     }
     private static Properties getProperties()throws IOException {
         Properties prop = new Properties();
-        String path = "conxao.properties";
+        String path = "test/conxao.properties";
 
         prop.load(FabricConnection.class.getResourceAsStream(path));
         return prop;

@@ -1,3 +1,5 @@
+package test;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -7,7 +9,7 @@ import java.util.List;
 
 // That's an example of how works a DAO class:
 
-public class DAOPessoa implements DAOInterface<Pessoa>{
+public class DAOPessoa implements DAOInterface<Pessoa> {
 
     // it's better to user the connection like this for encapsulation
     private Connection connection;

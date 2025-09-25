@@ -1,3 +1,5 @@
+package test;
+
 public class Pessoa {
     private int codigo;  // mapeia para codigo na tabela
     private String nome;  // mapeia para nome na tabela

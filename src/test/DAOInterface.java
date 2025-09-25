@@ -1,3 +1,5 @@
+package test;
+
 import java.util.List;
 
 // it's the interface of the DAO -> Data Access Object

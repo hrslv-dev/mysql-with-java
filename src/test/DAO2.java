@@ -1,7 +1,7 @@
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
+package test;
+
+import java.sql.*;
+import java.
 
 public class DAO2 {
     private Connection c;
@@ -13,6 +13,9 @@ public class DAO2 {
         try {
             PreparedStatement ps = c.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
             setAtr(ps,args); // set the attributes for the statement like setString(1,s)
+            if(ps.executeUpdate() > 0){
+
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
