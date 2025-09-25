@@ -1,8 +1,12 @@
 public class Teste{
     public static void main(String[] args) {
-       DAOPessoa daoPessoa = new DAOPessoa();
+       DAO dao = new DAO();
 
-       daoPessoa.save(new Pessoa(7, "Gustavo Augusto"));
-       System.out.println("Salvo com sucesso!");
+       String sql = "INSERT INTO pessoas (nome) VALUES (?);";
+       dao.include(sql,"João da Silva Pedro");
+       dao.include(sql,"Pedro Henrique");
+       dao.include(sql,"Julia Ribeiro");
+
+
     }
 }
