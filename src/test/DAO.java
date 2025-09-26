@@ -3,58 +3,83 @@ package test;
 import java.sql.*;
 
 public class DAO {
-    private Connection connection;
-    // This method set the attribute for the statement to complete de SQL command.
-    // I don't understand very well this.
+    private Connection c;
 
-    // method that include what
-    public int include(String sql, Object...args){ // I don't understand why the method need to be int and return the id generated from that inclusion.
-        try{
-            PreparedStatement pstmt = getConnection().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
-            addAttribute(pstmt,args);
-
-            if(pstmt.executeUpdate() > 0){
-                ResultSet result = pstmt.getGeneratedKeys();
-                if(result.next()){
-                    return result.getInt(1);
+    //this method is just for commands that don't return some result in SQL (INSERT, DELETE, UPDATE).
+    public int execute(String sql, Object ...args){
+                        // SQL command | Values
+        try {
+            PreparedStatement ps = getConnection().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+            setAtr(ps,args); // set the attributes for the statement like setString(1,s)
+            if(ps.executeUpdate() > 0){
+                ResultSet r = ps.getGeneratedKeys();
+                if(r.next()){
+                    return r.getInt(1);
                 }
             }
+            ps.close();
             return -1;
-        } catch (SQLException e){    // understand now, it stores the primary key generated from de database.
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
-
-    // Set the attribute in include() for the SQL command
-    private void addAttribute(PreparedStatement stmt, Object[] attributes){
+    // this method will return a resultSet from the Query (SELECT)
+    public ResultSet query(String sql, Object... args){
         try {
-            int index = 1; // Pass for all attributes -> correspond the index of the parameter.
-            for(Object atrb: attributes){
-                index++;
-                if(atrb instanceof String){  //
-                    stmt.setString(index,(String) atrb);
-                } else if(atrb instanceof Integer){
-                    stmt.setInt(index,(int) atrb);
-                } else if(atrb instanceof Double){
-                    stmt.setDouble(index, (double) atrb);
+            PreparedStatement ps = getConnection().prepareStatement(sql);
+            setAtr(ps, args); // set the attributes for the statement like setString(1,s)
+            ResultSet rs = ps.executeQuery();   
+              
+            return rs; // returning the resultSet to do some things with it 
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    // closes the connection 
+    public void close(){
+        try {
+            getConnection().close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException (e); 
+        }finally{
+            this.c = null;
+        }
+
+    }
+
+    // set the type and the attribute for the prepraredStatement
+    private void setAtr(PreparedStatement ps, Object[] args){
+        // index of the parameter in the SQL command
+        try {
+            int index = 1;
+            // need to pass for all the args
+            for(Object arg: args){ //
+                if(arg instanceof String){ // confers if is the arg is a String, a Double or Int
+                    ps.setString(index,(String) arg);
+                } else if(arg instanceof Integer){
+                    ps.setInt(index,(int) arg);
+                } else if(arg instanceof Double){
+                    ps.setDouble(index, (double) arg);
                 }
+                index++;
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private Connection getConnection(){ // It's seem that this is for more safety in the code.
-        // The order of the condition matter:
-        // if isClosed() comes first -> NullPointerException
+
+    //method to get the connection and if it's null, generate one.
+    private Connection getConnection(){
         try {
-            if(this.connection != null && !this.connection.isClosed() ){
-                return connection;
+            if(this.c != null && !this.c.isClosed()){
+                return this.c;
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        connection = FabricConnection.getConnection();
-        return connection;
+        c = FabricConnection.getConnection();
+        return c;
     }
 }
