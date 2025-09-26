@@ -1,7 +1,6 @@
 package test;
 
 import java.sql.*;
-import java.
 
 public class DAO2 {
     private Connection c;
@@ -11,11 +10,15 @@ public class DAO2 {
     public int execute(String sql, Object ...args){
                         // SQL command | Values
         try {
-            PreparedStatement ps = c.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+            PreparedStatement ps = getConnection().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
             setAtr(ps,args); // set the attributes for the statement like setString(1,s)
             if(ps.executeUpdate() > 0){
-
+                ResultSet r = ps.getGeneratedKeys();
+                if(r.next()){
+                    return r.getInt(1);
+                }
             }
+            return -1;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -47,10 +50,10 @@ public class DAO2 {
             if(this.c != null && !this.c.isClosed()){
                 return this.c;
             }
-            this.c = FabricConnection.getConnection();
-            return this.c;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        c = FabricConnection.getConnection();
+        return c;
     }
 }

@@ -24,7 +24,7 @@ public class FabricConnection {
     }
     private static Properties getProperties()throws IOException {
         Properties prop = new Properties();
-        String path = "test/conxao.properties";
+        String path = "conxao.properties";
 
         prop.load(FabricConnection.class.getResourceAsStream(path));
         return prop;
