@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 // todos os imports são interfaces.
-public class TesteConnection {      // FIXME Qual a diferença entre um try catch e assinar o método com a excessão?
+public class TesteConnection {     
     public static void main(String[] args) throws SQLException {
         final String url = "jdbc:mysql://localhost:3306?verifyServerCertificate=false&useSSL=true";  // String de conexão
         final String user = "root";
