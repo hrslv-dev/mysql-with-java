@@ -10,7 +10,7 @@ public class Teste{
         DAO dao = new DAO();
 
         String command = "SELECT * FROM pessoas WHERE codigo<?;";
-        
+            
         List<Pessoa> pessoas = new ArrayList<>();
 
         try {

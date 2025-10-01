@@ -4,6 +4,8 @@ import java.sql.*;
 
 public class DAO {
     private Connection c;
+    // The difference between the DAO and the Active Record is that DAO have one class for the persistence, and the AR have everything together.  
+
 
     //this method is just for commands that don't return some result in SQL (INSERT, DELETE, UPDATE).
     public int execute(String sql, Object ...args){
