@@ -9,15 +9,16 @@ public class ProdutoTeste {
         //notebook.save();
         //System.out.println(notebook.getId());
         // output = 0   
-        // why is worthing 0? 
+        // why is worthing 0?; 
         
         Produto caderno = new Produto("Caderno", 10);
         //caderno.save();
         // correct id = 7 
-        // getid() -> 0
+        // getid() -> 0  why is always worthing 0 ? 
 
-        System.out.println(caderno.getId());
-
-
+        Produto tablet = new Produto("Tablet Sansung", 3000); 
+        tablet.save();
+        // needs to be 16
+        // all id is being 0, and in the database is autoIncrementing.         
     }
 }

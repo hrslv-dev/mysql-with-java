@@ -1,8 +1,6 @@
 package test.ar;
-
 import java.sql.*;
 import test.FabricConnection;
-
 
 public class Produto implements ActiveRecord{
     private double value; 
@@ -32,19 +30,21 @@ public class Produto implements ActiveRecord{
     @Override
     public void save(){
        try {
-           PreparedStatement ps = getConnection().prepareStatement("INSERT INTO Produtos (nome,valor) VALUES (?,?);", PreparedStatement.RETURN_GENERATED_KEYS);
+           PreparedStatement ps = getConnection().prepareStatement("INSERT INTO Produtos (nome,valor) VALUES (?,?);", new String[] {"id"});
            ps.setString(1, this.getName());
            ps.setDouble(2, this.getValue());
                                 // Returns a int that corresponds to the affected rows in the table
            int affectedRows = ps.executeUpdate();
             System.out.println(affectedRows);
-            // output = ?         
+            // output = 1 correct          
            // If the affected rows are bigger than 0 -> result receive the generatedkey from the id in the table  
            if(affectedRows > 0){
                 try (ResultSet generatedKeys = ps.getGeneratedKeys()){
                     // if have a generated key -> id from the object receive the value from the collumn 1
                     if(generatedKeys.next()){
-                        this.id = generatedKeys.getInt(1);
+                        // HERE IS THE PROBLEM !!! 
+                        this.id = generatedKeys.getInt(1); // collumn id not found
+                        // always the ID is worthing 0
                     }
                 }
            }
@@ -53,7 +53,7 @@ public class Produto implements ActiveRecord{
            getConnection().close();
 
        } catch (SQLException e) {
-            throw new RuntimeException(e); 
+            e.printStackTrace(); 
        }
     }
     @Override

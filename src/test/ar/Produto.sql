@@ -4,8 +4,10 @@ CREATE TABLE Produtos (
     valor DECIMAL(10,2) NOT NULL
 )
 
+ALTER TABLE Produtos MODIFY COLUMN id INT NOT NULL;
 
 
 
+-- ALER TABLE Produtos -> auto_increment e NOT null
 
-SELECT * FROM Produtos;
+SELECT * FROM Produtos; 
